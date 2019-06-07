@@ -67,12 +67,22 @@ public class Interpreter {
 
     private AST evalAST(AST ast) {
         //write your code here
+        /**思路
+         * 首先判断整体是不是一个application
+         * 如果是，那么先讨论左，分别按左树是application、abstraction、identifier的情况讨论
+         * 其中，左abstraction的情况又需要考虑右树木的情况，再进行substitute操作
+         * 再说左identifier的情况，此时进一步讨论右树是application、abstraction、identifier的情况
+         * 整体是abstraction的话，对body部分求值
+         * 整体是identifier，直接return
+         */
        while(true){
            if(isApplication(ast)){
                if(isApplication(((Application)ast).lhs)){
                    ((Application)ast).lhs=evalAST(((Application)ast).lhs);
+                   //发现是application,则进行计算
                    if(isApplication(((Application)ast).lhs)){
                        return ast;
+                       //如果处理完左数发现仍然是个Application，返回这个ast 让它再次被计算
                    }
                }else if(isAbstraction(((Application)ast).lhs)){
                     if(isApplication(((Application)ast).rhs)){
@@ -80,7 +90,7 @@ public class Interpreter {
                     }
                     ast=substitute(((Abstraction)((Application)ast).lhs).body,((Application) ast).rhs);
                }else {
-                   //左树处理完毕后再处理右树
+                   //左树处理完毕后再处理右树，右树三种情况，处理完毕后即可返回结果了
                    if(isApplication(((Application)ast).rhs)){
                        ((Application)ast).rhs=evalAST(((Application)ast).rhs);
                        return ast;
