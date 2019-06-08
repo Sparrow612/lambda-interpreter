@@ -131,9 +131,6 @@ public class Interpreter {
             );
         } else {
             int temp=Integer.parseInt(((Identifier)node).value);
-            /*if(temp==-2){
-                return identifier;
-            }else {*/
             return new Identifier("",""+ (temp+(temp>=from?by:0)));
         }
     }//该方法用来改变index值
@@ -208,7 +205,7 @@ public class Interpreter {
                 app(MIN, FOUR, TWO),//31
         };
 
-        for(int i=5;i<sources.length; i++) {
+        for(int i=0;i<sources.length; i++) {
             //为了调试bug我修改了i的初值，所以改完记得恢复,另外结束时候记得顺手把After parse那段注释掉
             //目前的问题是这样的：app(PLUS,FIRST,SECOND)只要第一个数超过了1，便会出错，替换没问题，应该是调用顺序的问题 19/06/04 12:16
             String source = sources[i];
