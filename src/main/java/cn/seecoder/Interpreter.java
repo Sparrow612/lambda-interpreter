@@ -17,49 +17,6 @@ public class Interpreter {
     private boolean isIdentifier(AST ast){
         return ast instanceof Identifier;
     }
-    /*又一错误的尝试 19/06/05 16:20
-    private boolean allIdentifier(AST ast){
-        if(isApplication(ast)) {
-            Application app=(Application)ast;
-            if (allIdentifier(app.lhs) && isApplication(app.rhs)) {
-                do {
-                    app = (Application) app.rhs;
-                } while (isApplication(app));
-                return isIdentifier(app);
-            } else if (allIdentifier(app.rhs) && isApplication(app.lhs)) {
-                do {
-                    app = (Application) app.rhs;
-                } while (isApplication(app));
-                return isIdentifier(app);
-            }
-            return false;
-        }else if(isIdentifier(ast)){
-            return true;
-        }
-        return false;
-    }
-    */
-    /*
-    错误的尝试 19/06/05 9:30
-    private boolean allIdentifier(AST ast){
-        while (true) {
-            if (isAbstraction(ast)) {
-                do{
-                    ast=((Abstraction)ast).body;
-                }while (isAbstraction(ast));
-            } else if (isApplication(ast)) {
-                boolean result_lhs=allIdentifier(((Application)ast).lhs);
-                boolean result_rhs=allIdentifier(((Application)ast).rhs);
-                if(result_lhs&&result_rhs){
-                    return true;
-                }
-            } else if(isIdentifier(ast)){
-                return true;
-            }
-            return false;
-        }
-    }
-    */
 
     public AST eval(){
         return evalAST(astAfterParser);
