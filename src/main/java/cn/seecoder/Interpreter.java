@@ -81,8 +81,9 @@ public class Interpreter {
                    ((Application)ast).lhs=evalAST(((Application)ast).lhs);
                    //发现是application,则进行计算
                    if(isApplication(((Application)ast).lhs)){
+                       ((Application)ast).rhs=evalAST(((Application)ast).rhs);
                        return ast;
-                       //如果处理完左数发现仍然是个Application，返回这个ast 让它再次被计算
+                       //如果处理完左树发现它仍然是个Application，我们可以断言是(LCID LCID)的形式，这时候我们只需处理右树，然后返回
                    }
                }else if(isAbstraction(((Application)ast).lhs)){
                     if(isApplication(((Application)ast).rhs)){
@@ -98,7 +99,7 @@ public class Interpreter {
                        ((Application)ast).rhs=evalAST(((Application)ast).rhs);
                        return ast;
                    }else {
-                       return ast;
+                       return ast;//左树右数都是identifier
                    }
                }
            }else if(isAbstraction(ast)){
@@ -250,7 +251,7 @@ public class Interpreter {
                 app(MIN, FOUR, TWO),//31
         };
 
-        for(int i=0;i<sources.length; i++) {
+        for(int i=5;i<sources.length; i++) {
             //为了调试bug我修改了i的初值，所以改完记得恢复,另外结束时候记得顺手把After parse那段注释掉
             //目前的问题是这样的：app(PLUS,FIRST,SECOND)只要第一个数超过了1，便会出错，替换没问题，应该是调用顺序的问题 19/06/04 12:16
             String source = sources[i];
