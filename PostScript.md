@@ -24,7 +24,7 @@
          * 如果是，那么先讨论左，分别按左树是application、abstraction、identifier的情况讨论
          *     其中，左abstraction的情况又需要考虑右树木的情况，再进行substitute操作
                左application的情况，需要先计算application,如果计算完成后左还是个application，意味着左树是（LCID LCID），直接计算右树木，然后return
-         *     再说左identifier的情况，无需计算，进行分叉，讨论右树是application、abstraction、identifier的情况
+         *     再说左identifier的情况，无需计算，进行分叉，讨论右树是application、abstraction、identifier的情况，每种情况处理完，return
          * 整体是abstraction的话，对body部分求值后return
          * 整体是identifier，直接return
          */
@@ -36,4 +36,4 @@
  -Identifier 就是个标识符，有name和value（德布鲁因Index值），在运算以及打印中起作用的是value
 
  #结果
- 有效Lambda程式子最后返回的结果一定是一个Abstration，但Abstraction却不一定是最终值（考虑函数体是Application的情况）如\f.\x.((\f.\x.x) x)就可进一步规约
+ 有效Lambda程式最后返回的结果一定是一个Abstration，但Abstraction却不一定是最终值（考虑函数体是Application的情况）如\f.\x.((\f.\x.x) x)就可进一步规约
